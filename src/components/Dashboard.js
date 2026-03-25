@@ -216,6 +216,8 @@ Date: ${formatDate(record.appointmentDate)}`;
       if (res.ok) {
         const data = await res.json();
         setActivityLogs(data);
+      } else if (res.status === 401 || res.status === 403) {
+        handleAuthError();
       }
     } catch (err) {
       console.error("Failed to load activity logs:", err);

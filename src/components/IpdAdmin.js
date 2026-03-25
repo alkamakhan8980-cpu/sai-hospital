@@ -37,17 +37,9 @@ function IpdAdmin({ onBack, activeSubTab }) {
     const [admittedSearch, setAdmittedSearch] = useState("");
     const [admittedDateFilter, setAdmittedDateFilter] = useState("");
 
-    // Filters - Discharged
-    const [dischargedSearch] = useState("");
-    const [dischargedDateFilter] = useState("");
-
     // Filters - All IPD Records
     const [allSearch, setAllSearch] = useState("");
     const [allDateFilter, setAllDateFilter] = useState("");
-
-    useEffect(() => {
-        fetchIpdRecords();
-    }, [fetchIpdRecords]);
 
     const fetchIpdRecords = useCallback(async () => {
         try {
@@ -63,6 +55,10 @@ function IpdAdmin({ onBack, activeSubTab }) {
             console.error("Failed to load IPD records:", err);
         }
     }, []);
+
+    useEffect(() => {
+        fetchIpdRecords();
+    }, [fetchIpdRecords]);
 
     const handleAdmit = async (e) => {
         e.preventDefault();
