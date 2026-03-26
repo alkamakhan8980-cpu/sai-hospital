@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import Facility from "./components/Facility";
 import Symptoms from "./components/Symptoms";
+import Signup from "./components/Signup";
 
 function AppContent() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function AppContent() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/facility" element={<Facility />} />
           <Route path="/symptoms" element={<Symptoms />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/admin" element={<Login />} />
         </Routes>
       </main>
