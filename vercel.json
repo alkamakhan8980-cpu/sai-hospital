@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://sai-hospital-backend-env.eba-2ptmcpam.ap-south-1.elasticbeanstalk.com/api/:path*"
+    }
+  ]
+}
