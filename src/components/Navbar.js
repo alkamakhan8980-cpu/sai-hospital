@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import hospitalLogo from "../assets/hospital_logo.png";
 
 function Navbar() {
   const location = useLocation();
@@ -16,9 +17,9 @@ function Navbar() {
   return (
     <nav className="navbar">
       <Link to="/" style={{ textDecoration: "none", color: "inherit" }} onClick={closeMenu}>
-        <h2 className="logo">
-          <span style={{ fontSize: "28px", marginRight: "8px" }}>🏥</span>
-          Sai Hospital
+        <h2 className="logo" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <img src={hospitalLogo} alt="Logo" style={{ height: "40px" }} />
+          <span>Sai Hospital</span>
         </h2>
       </Link>
 
@@ -32,7 +33,7 @@ function Navbar() {
         {!["/", "/dashboard", "/login", "/admin"].includes(location.pathname) && (
           <Link to="/" onClick={closeMenu}>Home</Link>
         )}
-        
+
         {!["/dashboard", "/login", "/admin"].includes(location.pathname) && (
           <>
             <Link to="/about" onClick={closeMenu}>About</Link>

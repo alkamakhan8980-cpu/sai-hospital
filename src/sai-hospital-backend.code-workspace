@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../sai-hospital-backend"
+		},
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "automatic"
+	}
+}

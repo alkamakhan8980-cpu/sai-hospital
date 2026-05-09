@@ -2,8 +2,8 @@
   "version": 2,
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/index.js"
+      "source": "/api/:path*",
+      "destination": "https://YOUR_BACKEND_URL.vercel.app/api/:path*"
     }
   ]
 }

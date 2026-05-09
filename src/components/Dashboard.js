@@ -8,6 +8,7 @@ import IpdAdmin from "./IpdAdmin";
 import AddStaff from "./AddStaff";
 import TeamDirectory from "./TeamDirectory";
 import ChangePassword from "./ChangePassword";
+import hospitalLogo from "../assets/hospital_logo.png";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -1446,7 +1447,10 @@ Date: ${formatDate(record.appointmentDate)}`;
     <div className="admin-layout">
       {/* Mobile Top Bar */}
       <div className="mobile-admin-header">
-        <h2 className="logo" style={{ color: 'var(--primary)', margin: 0, fontSize: '20px' }}>🏥 Sai Hospital</h2>
+        <h2 className="logo" style={{ color: 'var(--primary)', margin: 0, fontSize: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src={hospitalLogo} alt="Logo" style={{ height: '30px' }} />
+          <span>Sai Hospital</span>
+        </h2>
         <button className="mobile-menu-btn" onClick={() => setIsMobileSidebarOpen(true)}>
           <i className="fa-solid fa-bars"></i>
         </button>
@@ -1461,7 +1465,10 @@ Date: ${formatDate(record.appointmentDate)}`;
         <button className="mobile-close-btn" onClick={() => setIsMobileSidebarOpen(false)}>
           <i className="fa-solid fa-xmark"></i>
         </button>
-        <h2 className="sidebar-logo">Sai Hospital</h2>
+        <h2 className="sidebar-logo" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <img src={hospitalLogo} alt="Logo" style={{ height: '40px' }} />
+          <span>Sai Hospital</span>
+        </h2>
         <nav className="hierarchical-nav">
           <div className="nav-group">
             <a href="#!" onClick={() => handleNavClick("appointments")} className={activePage === "appointments" ? "active" : ""}>
