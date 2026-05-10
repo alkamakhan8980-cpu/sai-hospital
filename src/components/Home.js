@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import homepageBg from "../assets/homepage_bg.jpg";
 
 function Home() {
   const navigate = useNavigate();
@@ -25,11 +26,16 @@ function Home() {
   return (
     <div className="home-page-modern">
 
-      <div className="home-hero-modern">
-        <div className="hero-content-modern">
-          <h1>Welcome to <span className="highlight-text">Sai Hospital</span></h1>
+      <div className="home-hero-modern" style={{ backgroundImage: 'none', backgroundColor: '#f8fafc', padding: '60px 20px' }}>
+        <div className="hero-content-modern" style={{ maxWidth: '1000px' }}>
+          <h1 style={{ color: '#1e293b' }}>Welcome to <span className="highlight-text">Sai Hospital</span></h1>
           <span className="hero-badge">Caring for Life</span>
-          <p>Experience advanced medical care with our trusted specialists and state-of-the-art facilities. Your health is our priority.</p>
+          <p style={{ color: '#64748b', marginBottom: '30px' }}>Experience advanced medical care with our trusted specialists and state-of-the-art facilities. Your health is our priority.</p>
+          
+          <div style={{ width: 'calc(100% + 40px)', marginLeft: '-20px', marginRight: '-20px', marginBottom: '40px' }}>
+            <img src={homepageBg} alt="Reception" style={{ width: '100%', borderRadius: '0' }} />
+          </div>
+
           <div className="hero-buttons">
             <button className="primary-btn-large" onClick={() => navigate("/symptoms")}>Assess Your Symptoms 🩺</button>
             <button className="secondary-btn-large" onClick={() => document.querySelector('.treatment-section')?.scrollIntoView({ behavior: 'smooth' })}>Explore Services ↓</button>

@@ -228,12 +228,24 @@ Date: ${formatDate(record.appointmentDate)}`;
   // handleAuthError moved above fetch functions
 
   useEffect(() => {
-    fetchAppointments();
-    fetchStaffMembers();
-    fetchLabRecords();
-    fetchIpdRecords();
-    fetchActivityLogs();
-  }, [fetchAppointments, fetchStaffMembers, fetchLabRecords, fetchIpdRecords, fetchActivityLogs]);
+    const isOverview = activePage === "appointments";
+    
+    if (isOverview || activePage.startsWith("appointments_") || activePage.startsWith("patients")) {
+      fetchAppointments();
+    }
+    if (isOverview || activePage === "staff_list" || activePage === "add_staff" || activePage.startsWith("staff_")) {
+      fetchStaffMembers();
+    }
+    if (isOverview || activePage === "lab_requests" || activePage.startsWith("lab_")) {
+      fetchLabRecords();
+    }
+    if (isOverview || activePage === "ipd_new" || activePage.startsWith("ipd_")) {
+      fetchIpdRecords();
+    }
+    if (isOverview || activePage === "staff_logs") {
+      fetchActivityLogs();
+    }
+  }, [activePage, fetchAppointments, fetchStaffMembers, fetchLabRecords, fetchIpdRecords, fetchActivityLogs]);
 
   // Save active tab to localStorage whenever it changes
   useEffect(() => {

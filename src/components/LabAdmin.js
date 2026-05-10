@@ -631,7 +631,7 @@ function LabAdmin({ onBack, activeSubTab }) {
       </div>
 
       {/* SAVED RECORDS CARDS - Only for Pending/Completed or all Lab context */}
-      {(activeSubTab === "lab_pending" || activeSubTab === "lab_completed" || activeSubTab === "lab") && records.length > 0 && (
+      {(activeSubTab === "lab_pending" || activeSubTab === "lab_completed" || activeSubTab === "lab") && (
         <div className="lab-records-wrapper">
 
           <div className="lab-records-header">
@@ -720,7 +720,7 @@ function LabAdmin({ onBack, activeSubTab }) {
               {filteredRecords.length === 0 ? (
                 <div className="no-results" style={{ gridColumn: '1/-1', background: 'white', padding: '40px', borderRadius: '16px', textAlign: 'center' }}>
                   <i className="fa-solid fa-folder-open" style={{ fontSize: '30px', color: '#cbd5e1', marginBottom: '10px', display: 'block' }}></i>
-                  <p>No records match filters</p>
+                  <p>No records found.</p>
                 </div>
               ) : (
                 filteredRecords.map(record =>
