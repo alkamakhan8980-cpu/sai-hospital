@@ -1515,6 +1515,7 @@ Date: ${formatDate(record.appointmentDate)}`;
             <div className="nav-sub-items">
               <a href="#!" onClick={() => setActivePage("ipd_new")}>New Admissions</a>
               <a href="#!" onClick={() => setActivePage("ipd_admitted")}>Admitted Patients</a>
+              <a href="#!" onClick={() => setActivePage("ipd_discharged")}>Discharged Patients</a>
               <a href="#!" onClick={() => setActivePage("ipd_records")}>IPD Records</a>
             </div>
           </div>

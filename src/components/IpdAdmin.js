@@ -37,6 +37,10 @@ function IpdAdmin({ onBack, activeSubTab }) {
     const [admittedSearch, setAdmittedSearch] = useState("");
     const [admittedDateFilter, setAdmittedDateFilter] = useState("");
 
+    // Filters - Discharged
+    const [dischargedSearch, setDischargedSearch] = useState("");
+    const [dischargedDateFilter, setDischargedDateFilter] = useState("");
+
     // Filters - All IPD Records
     const [allSearch, setAllSearch] = useState("");
     const [allDateFilter, setAllDateFilter] = useState("");
@@ -224,7 +228,13 @@ function IpdAdmin({ onBack, activeSubTab }) {
         return matchSearch && matchDate;
     });
 
-    // dischargedPatients removed as it was unused
+    const dischargedPatients = ipdRecords.filter(r => r.status === "DISCHARGED").filter(r => {
+        const matchSearch = (r.patientName || "").toLowerCase().includes(dischargedSearch.toLowerCase()) ||
+            (r.disease || "").toLowerCase().includes(dischargedSearch.toLowerCase()) ||
+            (r.wardBedNo || "").toLowerCase().includes(dischargedSearch.toLowerCase());
+        const matchDate = dischargedDateFilter ? (r.dischargeDate && r.dischargeDate.startsWith(dischargedDateFilter)) : true;
+        return matchSearch && matchDate;
+    });
 
     const allPatients = ipdRecords.filter(r => {
         const matchSearch = (r.patientName || "").toLowerCase().includes(allSearch.toLowerCase()) ||
@@ -255,7 +265,7 @@ function IpdAdmin({ onBack, activeSubTab }) {
     };
 
     const totalAdmittedCount = ipdRecords.filter(r => r.status === "ADMITTED").length;
-    // totalDischargedCount removed as it was unused
+    const totalDischargedCount = ipdRecords.filter(r => r.status === "DISCHARGED").length;
 
     const formatDate = (dateString) => {
         if (!dateString) return "-";
@@ -590,6 +600,140 @@ function IpdAdmin({ onBack, activeSubTab }) {
 
 
 
+            {/* DISCHARGED SECTION */}
+            {activeSubTab === "ipd_discharged" && (
+                <div className="ipd-section" style={{ marginBottom: '40px' }}>
+
+                    <div className="summary-header-premium" style={{ marginBottom: '25px' }}>
+                        <div className="metric-card-horizontal completed">
+                            <div className="m-icon-large">
+                                <i className="fa-solid fa-house-chimney-medical"></i>
+                            </div>
+                            <div className="m-info-large">
+                                <h2>Discharged Patients</h2>
+                                <p>Patients who have been successfully treated and discharged.</p>
+                            </div>
+                            <div className="m-stat-large">
+                                <span className="count">{totalDischargedCount}</span>
+                                <span className="label">Total Discharged</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="lab-records-actions-bar-container" style={{ marginBottom: '25px' }}>
+                        <button className="global-back-btn" onClick={onBack} style={{ padding: '8px 15px', margin: 0 }}>
+                            <i className="fa-solid fa-arrow-left"></i> Back
+                        </button>
+                        <div className="lab-records-filters">
+                            <input
+                                type="text"
+                                className="premium-filter-input"
+                                placeholder="Search Patients..."
+                                value={dischargedSearch}
+                                onChange={(e) => setDischargedSearch(e.target.value)}
+                            />
+                            <div className="date-input-wrapper-premium">
+                                <i className="fa-solid fa-calendar-days"></i>
+                                <input
+                                    type="date"
+                                    className="premium-date-input"
+                                    value={dischargedDateFilter}
+                                    onChange={(e) => setDischargedDateFilter(e.target.value)}
+                                />
+                            </div>
+                            <button
+                                className="clear-filters-primary-btn"
+                                onClick={() => { setDischargedSearch(""); setDischargedDateFilter(""); }}
+                            >
+                                Clear Filters
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style={{ marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <input
+                            type="checkbox"
+                            className="table-checkbox"
+                            checked={dischargedPatients.length > 0 && dischargedPatients.every(r => selectedIds.includes(r.id))}
+                            onChange={(e) => { e.stopPropagation(); handleSelectAll(dischargedPatients); }}
+                            onClick={(e) => e.stopPropagation()}
+                        />
+                        <span style={{ fontWeight: 600, color: '#64748b', fontSize: '14px' }}>Select All Discharged</span>
+                    </div>
+
+                    <div className="universal-grid">
+                        {dischargedPatients.length === 0 ? (
+                            <div className="no-results" style={{ gridColumn: '1/-1', background: 'white', padding: '40px', borderRadius: '16px' }}>
+                                <i className="fa-solid fa-house-chimney-medical"></i>
+                                <p>No discharged patients found.</p>
+                            </div>
+                        ) : (
+                            dischargedPatients.map(r => (
+                                <div key={r.id} className={`universal-card discharged-patient-card ${selectedIds.includes(r.id) ? 'selected' : ''}`}>
+                                    <div className="u-card-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            className="table-checkbox"
+                                            checked={selectedIds.includes(r.id)}
+                                            onChange={(e) => { e.stopPropagation(); toggleSelect(r.id); }}
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
+                                    </div>
+                                    <div className="u-card-header">
+                                        <div className="u-card-avatar" style={{ background: '#e0e7ff', color: '#4356c4' }}>{getInitials(r.patientName)}</div>
+                                        <div className="u-card-title-group">
+                                            <h3>{r.patientName}</h3>
+                                            <span className="u-card-badge">#{r.id} • {r.age}Y • {r.gender}</span>
+                                        </div>
+                                        <div className="u-card-status-dot" style={{ background: '#10b981' }}></div>
+                                    </div>
+
+                                    <div className="u-card-info-box">
+                                        <div className="u-info-item">
+                                            <i className="fa-solid fa-stethoscope"></i>
+                                            <span style={{ fontWeight: 700, color: '#1e293b' }}>{r.disease}</span>
+                                        </div>
+                                        <div className="u-info-item">
+                                            <i className="fa-solid fa-door-open"></i>
+                                            <span>Ward & Bed: <strong>{r.wardBedNo}</strong></span>
+                                        </div>
+                                        <div className="u-info-item">
+                                            <i className="fa-solid fa-phone"></i>
+                                            <span>{r.contact || "No Contact"}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="u-card-footer">
+                                        <div className="admitted-footer-metrics">
+                                            <div className="u-footer-col">
+                                                <span className="u-footer-label">Discharge Date</span>
+                                                <span className="u-footer-value">{formatDate(r.dischargeDate)}</span>
+                                            </div>
+                                            <div className="u-footer-col">
+                                                <span className="u-footer-label">Total Bill</span>
+                                                <span className="u-footer-value success">₹{r.totalBill}</span>
+                                            </div>
+                                        </div>
+                                        <div className="u-card-actions">
+                                            <div className="u-actions-group" style={{ marginLeft: 'auto' }}>
+                                                <button className="u-action-btn edit" onClick={(e) => { e.stopPropagation(); handleEdit(r); }} title="Edit">
+                                                    <i className="fa-solid fa-pen"></i>
+                                                </button>
+                                                <button className="u-action-btn delete" onClick={(e) => { e.stopPropagation(); deleteRecord(r.id); }} title="Delete">
+                                                    <i className="fa-solid fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            )}
+
+
+
             {/* ALL IPD RECORDS SECTION */}
             {activeSubTab === "ipd_records" && (
                 <div className="ipd-section">
@@ -895,7 +1039,7 @@ function IpdAdmin({ onBack, activeSubTab }) {
                 <div className="bulk-action-bar">
                     <span className="selection-count">{selectedIds.length} records selected</span>
 
-                    {activeSubTab === "ipd_records" && (
+                    {(activeSubTab === "ipd_records" || activeSubTab === "ipd_discharged") && (
                         <>
                             <button
                                 className="bulk-pdf-btn"
