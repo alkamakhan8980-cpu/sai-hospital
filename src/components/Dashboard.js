@@ -10,7 +10,7 @@ import TeamDirectory from "./TeamDirectory";
 import ChangePassword from "./ChangePassword";
 import hospitalLogo from "../assets/hospital_logo.png";
 
-function Dashboard() {
+function Dashboard({ setIsLoading }) {
   const navigate = useNavigate();
   const userRole = localStorage.getItem("userRole") || "DOCTOR"; // Default to DOCTOR or just ""
   // Read active tab from localStorage if it exists, default to 'appointments'
@@ -18,7 +18,12 @@ function Dashboard() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [activePage]);
+    if (setIsLoading) {
+      setIsLoading(true);
+      const timer = setTimeout(() => setIsLoading(false), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [activePage, setIsLoading]);
 
   const [appointments, setAppointments] = useState([]);
   const [staffMembers, setStaffMembers] = useState([]);
