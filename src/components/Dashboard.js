@@ -239,7 +239,7 @@ Date: ${formatDate(record.appointmentDate)}`;
 
   useEffect(() => {
     const isOverview = activePage === "appointments";
-    
+
     if (isOverview || activePage.startsWith("appointments_") || activePage.startsWith("patients")) {
       fetchAppointments();
     }
@@ -1242,7 +1242,7 @@ Date: ${formatDate(record.appointmentDate)}`;
                   </button>
                 )}
                 <h2 style={{ margin: 0, fontSize: '20px', color: 'var(--primary)' }}>
-                  {activePage === "appointments" ? "Hospital Overview" :
+                  {activePage === "appointments" ? "" :
                     activePage.replace('appointments_', '').replace(/_/g, ' ').toUpperCase()}
                 </h2>
               </div>
